@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import './styles.css'
-import { Link } from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
 
 import api from '../../services/api'
 import logoImg from '../../assets/logo.svg'
@@ -14,13 +14,16 @@ export default function Register() {
   const [city, setCity] = useState('')
   const [UF, setUF] = useState('')
 
+  const history = useHistory()
+
   async function handleRegister(e) {
     e.preventDefault();
     try {
       console.log({ name, email, whatsApp, city, UF })
-      const result = await api.post('http://localhost:3030/ongs', { name, email, whatsapp: whatsApp, city, uf: UF })
+      const result = await api.post('ongs', { name, email, whatsapp: whatsApp, city, uf: UF })
       console.log(result)
       alert(`seu ID de acesso é: ${result.data.id}`)
+      history.push('/')
     } catch (error) {
       alert(`error no cadastro, tente novamento mais tarde`)
       console.log(error)
